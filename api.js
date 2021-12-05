@@ -7,16 +7,19 @@ const images = require("./imgs.json");
 const colors = require("colors");
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 50
+  windowMs: 15 * 60 * 1000, 
+  max: 50 
 });
-	app.use(limiter);
-	app.get("/", function(req, res) {
+
+app.use(limiter);
+
+app.get("/", function(req, res) {
+    res.send("Hello and welcome to the APIs made by the lavalink.eu team! Go to <a href='http://raccoon.lavalink.eu/raccoons'>http://raccoon.lavalink.eu/raccoons</a> to get the url of a random raccoon picture!")
 });
 
 app.get("/raccoons", function(req, res) {
     try {
-        let raccoonpic = JSON.stringify(images[randomnum(0, images.length)].url, null, '  ')
+        let raccoonpic = JSON.stringify(images[randomnum(0, images.length)], null, ' ')
         const date = new Date();
         console.log(`${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}:${(date.getSeconds() < 10 ? '0' : '') + date.getSeconds()} \n`.green + raccoonpic);
         res.send(raccoonpic);
@@ -32,17 +35,13 @@ app.listen(config.port, () => console.log(`Server listening on port ${config.por
 function randomnum (firstnum, secondnum) {
     return Math.round(Math.random() * (secondnum - firstnum) + firstnum);
 }
-
+function randomnum (firstnum, secondnum) {
+    return Math.round(Math.random() * (secondnum - firstnum) + firstnum);
+}
 app.use((req, res, next) => {
-    if (req.hostname === 'raccoon.lavalink.eu') {
+    if (req.hostname === 'YOURDOMAIN.COM') {
       return next();
-    }
-  
-    const user = users.find(user => user.domain === req.hostname);
-    if (!user) {
-      return res.sendStatus(404);
-    }
-  
+    }  
     return res.send(`HELLO`);
-  });
+});
 
